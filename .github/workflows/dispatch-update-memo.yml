@@ -18,4 +18,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+          UPDATE_MARKDOWN: true
         working-directory: actions/update-memo
