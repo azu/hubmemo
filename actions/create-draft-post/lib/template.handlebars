@@ -10,19 +10,17 @@ tags:
 {{/each}}
 
 ---
-
-{{#articles}}
-
+{{#items}}
 ## {{{escape_md title}}}
 [{{ttp url}}]({{{url}}} "{{{escape_attr title}}}")
 {{#if tags}}
-<p class="jser-tags jser-tag-icon">{{{format_tags tags}}}</p>
+<p class="item-tags">{{{format_tags tags}}}</p>
 {{/if}}
 
 {{{auto_format_md content}}}
-
 {{#relatedLinks}}
 - [{{{escape_md title}}}]({{{url}}} "{{escape_attr title}}")
 {{#if @last}}
 {{/if}}{{/relatedLinks}}
-----{{/articles}}
+----
+{{/items}}

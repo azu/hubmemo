@@ -18,6 +18,7 @@ jobs:
         run: yarn install
       - name: Test
         run: |
-          cd actions/update-memo && yarn install && yarn test
+          cd actions/update-memo && yarn install && bash test.local.sh
+          cd actions/create-draft-post && yarn install && bash test.local.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -6,7 +6,7 @@ const copyResource = async (input: string, output: string) => {
     await fs.promises.mkdir(path.dirname(output), {
         recursive: true
     });
-    await fs.promises.copyFile(input, output, fs.constants.COPYFILE_FICLONE_FORCE);
+    await fs.promises.copyFile(input, output, fs.constants.COPYFILE_FICLONE);
 }
 export const copyResources = async ({ dataRoot, publicRoot, unPublishedItems, rawDataURL }: {
     dataRoot: string;
@@ -20,7 +20,9 @@ export const copyResources = async ({ dataRoot, publicRoot, unPublishedItems, ra
         for (const media of item.media) {
             const absolutePath = media.url.replace(rawDataURL, dataRoot);
             const relativePath = path.relative(dataRoot, absolutePath);
-            const outputMediaPath = path.join(publicRoot, relativePath);
+            const outputMediaPath = path.join(publicRoot, "img",
+                relativePath.replace("/img/", "/")
+            );
             promises.push(copyResource(absolutePath, outputMediaPath));
         }
     }

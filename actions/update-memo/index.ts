@@ -1,7 +1,8 @@
-import { createKoreFile, createGitHubAdaptor } from "korefile";
+import { createKoreFile, createGitHubAdaptor, createFsAdaptor } from "korefile";
 import { AsocialBookmark, AsocialBookmarkItem, createBookmarkFilePath } from "asocial-bookmark";
 // @ts-expect-error: need @types
 import escape from "markdown-escape";
+import * as path from "path";
 
 type MemoItem = AsocialBookmarkItem & {
     private: boolean;
@@ -39,14 +40,14 @@ const createMarkdown = (items: MemoItem[], baseURL: string): string => {
 
 ${item.content}        
 ` + (media ? "\n" + media : "")
-    }).join("\n----\n");
+    }).join("\n\n----\n\n");
 };
 
 async function main() {
-    const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-    if (!GITHUB_TOKEN) {
-        throw new Error("require GH_TOKEN env");
-    }
+    // const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+    // if (!GITHUB_TOKEN) {
+    //     throw new Error("require GH_TOKEN env");
+    // }
     const GITHUB_REPOSITORY = process.env.GITHUB_REPOSITORY;
     if (!GITHUB_REPOSITORY) {
         throw new Error("require GITHUB_REPOSITORY env")
@@ -72,23 +73,17 @@ async function main() {
     });
     const now = new Date();
     const filePathTemplate = "data/:year/:month";
+    const projectRoot = path.join(__dirname, "../../");
     const asocialBookmark = new AsocialBookmark<MemoItem>({
-        github: {
-            owner: owner,
-            repo: repo,
-            ref: ref,
-            token: GITHUB_TOKEN
+        local: {
+            cwd: projectRoot
         },
         dataFilePath: filePathTemplate + "/index.json"
     });
     const korefile = createKoreFile({
-        adaptor: createGitHubAdaptor({
-                owner: owner,
-                repo: repo,
-                ref: ref,
-                token: GITHUB_TOKEN
-            }
-        )
+        adaptor: createFsAdaptor({
+            cwd: projectRoot
+        })
     });
     const bookmarkBasePath = createBookmarkFilePath(filePathTemplate, now);
     const githubRepoBaseURL = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${bookmarkBasePath}`;
