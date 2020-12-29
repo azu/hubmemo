@@ -1,25 +1,11 @@
-import meow from "meow";
 import { AsocialBookmark } from "asocial-bookmark";
-
-const cli = meow(`
-	Usage
-	  $ ts-node index.ts --json <input>
-
-	Options
-	  --json  JSON Payload
-
+/*
     Env
       GITHUB_TOKEN=xxx
       GITHUB_REF=refs/heads/main
       GITHUB_REPOSITORY=azu/hubmemo
       PAYLOAD=client_payload json
-
-	Examples
-	  $ ts-node index.ts
-`, {
-    autoHelp: true,
-});
-
+ */
 async function main() {
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
     if (!GITHUB_TOKEN) {
