@@ -9,11 +9,10 @@ async function main() {
     const branch = "master"
     const postsJSONURL = `https://${owner}.github.io/${repo}/posts.json`;
     const dataRoot = path.resolve(path.join(__dirname, "../../data"));
-    const publicRoot = path.resolve(path.join(__dirname, "../../public"));
+    const publicRoot = path.resolve(path.join(__dirname, "../../docs"));
     const rawDataURL = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data`
     const author = "azu"
     const category = "memo"
-
     const unPublishedItems = await getUnpublishedItems({
         dataRoot,
         postsJSONURL
