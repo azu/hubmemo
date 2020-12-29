@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && bash test.sh"
+    "test": "npm run build"
   },
   "keywords": [],
   "author": "azu",
