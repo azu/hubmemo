@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsc"
+    "build": "tsc",
+    "test": "npm run build && bash test.sh"
   },
   "keywords": [],
   "author": "azu",
