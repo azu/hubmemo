@@ -17,4 +17,5 @@ jobs:
       - name: Install
         run: yarn install
       - name: Test
-        run: yarn test
+        run: |
+          cd actions/update-memo && yarn install && yarn test
