@@ -12,16 +12,11 @@ const cli = meow(`
       GITHUB_TOKEN=xxx
       GITHUB_REF=refs/heads/main
       GITHUB_REPOSITORY=azu/hubmemo
+      PAYLOAD=client_payload json
 
 	Examples
-	  $ ts-node index.ts --json '{"title":"example","url":"https://example.com","content":"description for example","tags":["example"]}'
+	  $ ts-node index.ts
 `, {
-    flags: {
-        json: {
-            type: 'string',
-            isRequired: true
-        }
-    },
     autoHelp: true,
 });
 
@@ -38,7 +33,11 @@ async function main() {
     if (!GITHUB_REF) {
         throw new Error("require GITHUB_BRANCH env")
     }
-    const JSONPayload = JSON.parse(cli.flags.json);
+    const PAYLOAD = process.env.PAYLOAD;
+    if (!PAYLOAD) {
+        throw new Error("require PAYLOAD env")
+    }
+    const JSONPayload = JSON.parse(PAYLOAD);
     const [owner, repo] = GITHUB_REPOSITORY.split("/");
     const ref = GITHUB_REF.replace(/^refs\//, "");
     console.log("Update Repository", {

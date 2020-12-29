@@ -14,7 +14,8 @@ jobs:
         run: yarn install
         working-directory: actions/update-memo
       - name: Update Memo
-        run: yarn ts-node index.ts --json "${{ github.event.client_payload }}"
+        run: yarn ts-node index.ts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PAYLOAD: ${{ toJSON(github.event.client_payload) }}
         working-directory: actions/update-memo
