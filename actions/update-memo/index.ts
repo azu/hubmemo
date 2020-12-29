@@ -4,15 +4,20 @@ import { AsocialBookmark, AsocialBookmarkItem, createBookmarkFilePath } from "as
 import escape from "markdown-escape";
 
 type MemoItem = AsocialBookmarkItem & {
+    private: boolean;
     media: { url: string }[]
 }
 type ClientPayload = AsocialBookmarkItem & {
-    _test_ref_: string;
+    private: boolean;
     media: {
         fileName: string;
         /* base64 */
         content: string
-    }[]
+    }[];
+    /**
+     * For Test
+     */
+    _test_ref_: string
 }
 /*
     Env
@@ -106,6 +111,7 @@ async function main() {
     const isoDate = now.toISOString();
     const item = {
         ...clientPayload,
+        private: clientPayload.private ?? false,
         media: mediaItems,
         date: isoDate
     }

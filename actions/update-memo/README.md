@@ -4,6 +4,22 @@
 
 Payload format
 
+```ts
+type Payload = {
+    private: boolean,
+    title: string;
+    // unique key
+    url: string;
+    content: string;
+    tags: string[];
+    date: string;
+    viaURL?: string;
+    relatedItems?: { title: string, url: string }[]
+}
+```
+
+Example:
+
 ```json
 {
   "title": "example",
