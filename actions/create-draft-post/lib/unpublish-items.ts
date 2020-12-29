@@ -13,11 +13,9 @@ const fetchPosts = async (postsJSONURL: string) => {
 }
 export const getUnpublishedItems = async ({
                                               dataRoot,
-                                              publicRoot,
                                               postsJSONURL
                                           }: {
     dataRoot: string;
-    publicRoot: string;
     postsJSONURL: string;
 }): Promise<MemoItem[]> => {
     const res = await fetchPosts(postsJSONURL);

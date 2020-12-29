@@ -16,7 +16,6 @@ async function main() {
 
     const unPublishedItems = await getUnpublishedItems({
         dataRoot,
-        publicRoot,
         postsJSONURL
     });
     await copyResources({
