@@ -1,0 +1,20 @@
+name: Dispatch Update Memo
+on:
+  repository_dispatch:
+    types: [update-memo]
+jobs:
+  create-release-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup Node
+        uses: actions/setup-node@v2
+      - name: Install
+        run: yarn install
+        working-directory: actions/update-memo
+      - name: Update Memo
+        run: yarn ts-node index.ts --json "${{ toJSON(github.event.client_payload) }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: actions/update-memo
