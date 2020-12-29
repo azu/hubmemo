@@ -39,7 +39,8 @@ async function main() {
     }
     const JSONPayload = JSON.parse(PAYLOAD);
     const [owner, repo] = GITHUB_REPOSITORY.split("/");
-    const ref = GITHUB_REF.replace(/^refs\//, "");
+    // test
+    const ref = JSONPayload._test_branch_ ?? GITHUB_REF.replace(/^refs\//, "");
     console.log("Update Repository", {
         owner,
         repo,
