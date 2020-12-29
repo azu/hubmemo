@@ -27,7 +27,7 @@ type ClientPayload = AsocialBookmarkItem & {
 const createMarkdown = (items: MemoItem[], baseURL: string): string => {
     return items.map(item => {
         const media = item.media.map(media => {
-            return `![](${media.url.replace(baseURL, "")})`;
+            return `![](${media.url.replace(baseURL + "/", "")})`;
         }).join("\n");
         const title = item.url.startsWith("http") && item.title ? `## [${escape(item.title)}](${item.url})` : ""
         return `${title}
