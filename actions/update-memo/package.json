@@ -11,7 +11,9 @@
   "author": "azu",
   "license": "MIT",
   "dependencies": {
-    "asocial-bookmark": "^1.4.1"
+    "korefile": "^2.1.0",
+    "asocial-bookmark": "^1.5.1",
+    "markdown-escape": "^1.1.0"
   },
   "devDependencies": {
     "ts-node": "^9.1.1",
