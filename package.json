@@ -20,6 +20,6 @@
   "license": "MIT",
   "author": "azu",
   "scripts": {
-    "pull-template": "git remote add template git@github.com:azu/hubmemo.git 2>/dev/null && git fetch --all && git merge --allow-unrelated-histories template/master"
+    "pull-template": "git remote add template git@github.com:azu/hubmemo.git 2>/dev/null; git fetch --all && git merge --allow-unrelated-histories template/master"
   }
 }
