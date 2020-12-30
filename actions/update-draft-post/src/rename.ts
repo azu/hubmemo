@@ -82,7 +82,7 @@ const renameCommit = async (koreFile: KoreFile, { originalFileName, renameFn }: 
     };
 };
 
-const RENAME_TARGET = /(docs\/_posts\/\d+)\/(.*?\.md$)/;
+const RENAME_TARGET = /docs\/_posts\/.*?\.md$/;
 const canRename = (originalFilePath: string) => {
     return RENAME_TARGET.test(originalFilePath);
 };
@@ -198,6 +198,7 @@ export const rename = async (payload: {
             return canRename(originalFileName);
         })
         .map(file => {
+            console.log("file", file);
             return renameCommit(koreFile, {
                 originalFileName: file.filename,
                 renameFn: (fileName, content) => {
