@@ -19,16 +19,7 @@
   },
   "license": "MIT",
   "author": "azu",
-  "main": "lib/hubmemo.js",
-  "directories": {
-    "lib": "lib",
-    "test": "test"
-  },
-  "files": [
-    "bin/",
-    "lib/"
-  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pull-template": "git remote set-url template git@github.com:azu/hubmemo.git && git fetch --all && git merge --allow-unrelated-histories template/master"
   }
 }
