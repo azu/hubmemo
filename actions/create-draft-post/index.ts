@@ -3,6 +3,7 @@ import { getUnpublishedItems } from "./lib/unpublish-items";
 import { copyResources } from "./lib/copy-resources";
 import { createContent } from "./lib/create-content";
 import * as fs from "fs";
+import { MemoItem } from "./lib/MemoItem";
 
 /**
  Env
@@ -12,7 +13,8 @@ import * as fs from "fs";
  GITHUB_REPOSITORY=azu/hubmemo
 
  Optional
- POSTS_JSON_URL=https://.../posts.json
+ # does not exludes tail /
+ WEBSITE_BASE_URL=https://example.com
  CATEGORY=memo
  UPDATE_MARKDOWN=true
  */
@@ -46,11 +48,15 @@ async function main() {
     const clientPayload = JSON.parse(PAYLOAD) as ClientPayload;
     const ref = clientPayload._test_ref_ ?? GITHUB_REF.replace(/^refs\//, "");
     const branch = ref.replace(/^heads\//, "")
-    const POSTS_JSON_URL = process.env.POSTS_JSON_URL ?? `https://${owner}.github.io/${repo}/posts.json`;
+    const POSTS_JSON_URL = process.env.WEBSITE_BASE_URL
+        ? `${process.env.WEBSITE_BASE_URL}/posts.json`
+        : `https://${owner}.github.io/${repo}/posts.json`;
+
     // TODO: Configurable?
     const dataRoot = path.resolve(path.join(__dirname, "../../data"));
     const publicRoot = path.resolve(path.join(__dirname, "../../docs"));
     const rawDataURL = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data`
+    const imgResourceRoot = path.resolve(path.join(publicRoot, "img"));
     const author = GITHUB_ACTOR
     const category = process.env.CATEGORY ?? "memo"
     console.log("[Info]", {
@@ -71,10 +77,23 @@ async function main() {
         unPublishedItems,
         rawDataURL
     });
+    const imgResourceRelativePath = path.relative(publicRoot, imgResourceRoot);
+    const rewriteMediaForPublish = (memoItem: MemoItem): MemoItem => {
+        return {
+            ...memoItem,
+            media: memoItem.media.map(media => {
+                return {
+                    url: media.url.replace(rawDataURL, imgResourceRelativePath)
+                };
+            })
+        }
+    }
+    const forPublishItems = unPublishedItems.map(rewriteMediaForPublish)
+
     const content = await createContent({
         author,
         category,
-        unPublishedItems
+        forPublishItems: forPublishItems
     });
     const postsDir = path.join(publicRoot, "_posts");
     await fs.promises.mkdir(postsDir, {

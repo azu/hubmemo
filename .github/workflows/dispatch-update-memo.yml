@@ -41,6 +41,8 @@ jobs:
           title: "Draft Post"
           body: |
             - [ ] Write Headline
+          labels: |
+            Type:Post
           draft: true
       - name: Check Draft Post PR
         run: |
