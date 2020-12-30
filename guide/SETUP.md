@@ -1,6 +1,18 @@
 # Setup Guide
 
-## Deploy
+## Create Repository
+
+1. Click ["Use this template"](https://github.com/azu/hubmemo/generate)
+2. Input your repository name and select "Public" or "Private"
+
+:memo: If you use free plan of GitHub, GitHub does not support GitHub Pages.
+Instead of it, You can use Netlify etc...
+
+If you only to use it as private memo, skip deploy guide and see [Usage](./USAGE.md).
+
+## Deploy Setting
+
+If you want to publish your memo as blog, You set following guide.
 
 ### GitHub Pages
 
