@@ -113,6 +113,7 @@ async function main() {
     const isoDate = now.toISOString();
     const item = {
         ...payloadItem,
+        private: payloadItem.private ?? false,
         media: mediaItems,
         date: isoDate
     }
