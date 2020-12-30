@@ -12,7 +12,7 @@ import * as fs from "fs";
  GITHUB_REPOSITORY=azu/hubmemo
 
  Optional
- POSTS_JSON_URL
+ POSTS_JSON_URL=https://.../posts.json
  CATEGORY=memo
  UPDATE_MARKDOWN=true
  */

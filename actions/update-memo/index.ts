@@ -8,13 +8,19 @@ type MemoItem = AsocialBookmarkItem & {
     private: boolean;
     media: { url: string }[]
 }
-type ClientPayload = AsocialBookmarkItem & {
-    private: boolean;
-    media: {
-        fileName: string;
-        /* base64 */
-        content: string
-    }[];
+/**
+ * @example
+ *
+ */
+type ClientPayload = {
+    item: AsocialBookmarkItem & {
+        private: boolean;
+        media: {
+            fileName: string;
+            /* base64 */
+            content: string
+        }[];
+    }
     /**
      * For Test
      */
@@ -62,6 +68,7 @@ async function main() {
     }
     const UPDATE_MARKDOWN = Boolean(process.env.UPDATE_MARKDOWN);
     const clientPayload = JSON.parse(PAYLOAD) as ClientPayload;
+    const payloadItem = clientPayload.item;
     const [owner, repo] = GITHUB_REPOSITORY.split("/");
     // test
     const ref = clientPayload._test_ref_ ?? GITHUB_REF.replace(/^refs\//, "");
@@ -88,7 +95,7 @@ async function main() {
     const bookmarkBasePath = createBookmarkFilePath(filePathTemplate, now);
     const githubRepoBaseURL = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${bookmarkBasePath}`;
     // Upload Images
-    const mediaList = clientPayload.media ?? [];
+    const mediaList = payloadItem.media ?? [];
     const imgFiles = mediaList.map(media => {
         return {
             path: `${bookmarkBasePath}/img/${media.fileName}`,
@@ -105,8 +112,7 @@ async function main() {
     }
     const isoDate = now.toISOString();
     const item = {
-        ...clientPayload,
-        private: clientPayload.private ?? false,
+        ...payloadItem,
         media: mediaItems,
         date: isoDate
     }
