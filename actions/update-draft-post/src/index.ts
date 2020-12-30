@@ -12,11 +12,12 @@ const GITHUB_TOKEN = process.env.GITHUB_TOKEN!;
 const PULL_REQUEST_EVENT = JSON.parse(process.env.PULL_REQUEST_EVENT!);
 console.log("PULL_REQUEST_EVENT", PULL_REQUEST_EVENT);
 (async () => {
-    const authorAssociation = PULL_REQUEST_EVENT.pull_request.author_association;
-    const canUserCommit = authorAssociation === "MEMBER" || authorAssociation === "OWNER";
-    if (!canUserCommit) {
-        return;
-    }
+    // Action create a pull request
+    // const authorAssociation = PULL_REQUEST_EVENT.pull_request.author_association;
+    // const canUserCommit = authorAssociation === "MEMBER" || authorAssociation === "OWNER";
+    // if (!canUserCommit) {
+    //     return;
+    // }
     // Post PR should includes "Type:Post" label
     const pullRequestTitle = PULL_REQUEST_EVENT.pull_request.title;
     const pullRequestBody = PULL_REQUEST_EVENT.pull_request.body;
