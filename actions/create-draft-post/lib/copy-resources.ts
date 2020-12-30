@@ -21,7 +21,8 @@ export const copyResources = async ({ dataRoot, publicRoot, unPublishedItems, ra
             const absolutePath = media.url.replace(rawDataURL, dataRoot);
             const relativePath = path.relative(dataRoot, absolutePath);
             const outputMediaPath = path.join(publicRoot, "img",
-                relativePath.replace("/img/", "/")
+                relativePath
+                    .replace(/\/img\/([^\/]+)$/, "/$1")
             );
             promises.push(copyResource(absolutePath, outputMediaPath));
         }

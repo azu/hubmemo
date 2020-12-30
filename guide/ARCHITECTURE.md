@@ -22,3 +22,9 @@ Architecture is based on [JSer.info](https://jser.info/) repository in a single 
 ## Publish
 
 - gh-pages
+
+## Images
+
+- Copy Resources for Public
+  - It aims to preserve private and public
+  

@@ -3,6 +3,7 @@ import { getUnpublishedItems } from "./lib/unpublish-items";
 import { copyResources } from "./lib/copy-resources";
 import { createContent } from "./lib/create-content";
 import * as fs from "fs";
+import dayjs from "dayjs";
 import { MemoItem } from "./lib/MemoItem";
 
 /**
@@ -43,6 +44,7 @@ async function main() {
     if (!GITHUB_ACTOR) {
         throw new Error("require GITHUB_ACTOR env")
     }
+    const PRIVATE = process.env.PRIVATE === "true"
     const [owner, repo] = GITHUB_REPOSITORY.split("/");
     // test
     const clientPayload = JSON.parse(PAYLOAD) as ClientPayload;
@@ -57,6 +59,10 @@ async function main() {
     const publicRoot = path.resolve(path.join(__dirname, "../../docs"));
     const rawDataURL = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data`
     const imgResourceRoot = path.resolve(path.join(publicRoot, "img"));
+    const postsDir = path.join(publicRoot, "_posts");
+    // _posts/{YYYY}/draft.md
+    const postFilePath = path.join(postsDir, dayjs().format("YYYY"), "draft.md");
+    console.log("postFilePath", postFilePath)
     const author = GITHUB_ACTOR
     const category = process.env.CATEGORY ?? "memo"
     console.log("[Info]", {
@@ -71,35 +77,39 @@ async function main() {
         dataRoot,
         postsJSONURL: POSTS_JSON_URL
     });
-    await copyResources({
-        publicRoot,
-        dataRoot,
-        unPublishedItems,
-        rawDataURL
-    });
-    const imgResourceRelativePath = path.relative(publicRoot, imgResourceRoot);
+    if (PRIVATE) {
+        await copyResources({
+            publicRoot,
+            dataRoot,
+            unPublishedItems,
+            rawDataURL
+        });
+    }
     const rewriteMediaForPublish = (memoItem: MemoItem): MemoItem => {
         return {
             ...memoItem,
             media: memoItem.media.map(media => {
+                const relativeMediaURL = media.url
+                    .replace(rawDataURL, "/img")
+                    .replace(/\/img\/([^\/]+)$/, "/$1");
                 return {
-                    url: media.url.replace(rawDataURL, imgResourceRelativePath)
+                    url: relativeMediaURL
                 };
             })
         }
     }
-    const forPublishItems = unPublishedItems.map(rewriteMediaForPublish)
-
+    // If private is true, rewrite image path to copied url
+    // public url just use raw content
+    const forPublishItems = PRIVATE ? unPublishedItems.map(rewriteMediaForPublish) : unPublishedItems
     const content = await createContent({
         author,
         category,
         forPublishItems: forPublishItems
     });
-    const postsDir = path.join(publicRoot, "_posts");
-    await fs.promises.mkdir(postsDir, {
+    await fs.promises.mkdir(path.dirname(postFilePath), {
         recursive: true
     })
-    await fs.promises.writeFile(path.join(postsDir, "draft.md"), content, "utf-8")
+    await fs.promises.writeFile(postFilePath, content, "utf-8")
 }
 
 if (require.main) {

@@ -30,6 +30,7 @@ jobs:
         run: yarn install && yarn ts-node index.ts
         env:
           PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+          PRIVATE: false
         working-directory: actions/create-draft-post
       - name: Create Draft Pull Request
         id: cpr
