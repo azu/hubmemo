@@ -1,4 +1,4 @@
-# hubmemo
+# Hubmemo
 
 Private/Public Memo system based on GitHub.
 
