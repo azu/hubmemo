@@ -1,5 +1,8 @@
 # Setup Guide
 
+- Create Repository
+- Deploy Setting(If you want to publish your memo as blog)
+
 ## Create Repository
 
 1. Click ["Use this template"](https://github.com/azu/hubmemo/generate)
