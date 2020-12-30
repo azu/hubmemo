@@ -1,0 +1,26 @@
+name: Update Draft Post
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  update-draft-pr:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'Type:Post')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: Install
+        run: yarn install
+        working-directory: actions/update-draft-pr
+      - name: Run
+        run: yarn start
+        working-directory: actions/update-draft-pr
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PULL_REQUEST_EVENT: ${{ toJson(github.event) }}

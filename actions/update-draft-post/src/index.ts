@@ -18,12 +18,8 @@ console.log("PULL_REQUEST_EVENT", PULL_REQUEST_EVENT);
         return;
     }
     // Post PR should includes "Type:Post" label
-    const labels = PULL_REQUEST_EVENT.pull_request.labels;
     const pullRequestTitle = PULL_REQUEST_EVENT.pull_request.title;
     const pullRequestBody = PULL_REQUEST_EVENT.pull_request.body;
-    if (!labels.includes("Type:Post")) {
-        return;
-    }
     if (PULL_REQUEST_EVENT.action === "synchronize") {
         await rename({
             head: PULL_REQUEST_EVENT.pull_request.head,
