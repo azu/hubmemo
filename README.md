@@ -18,6 +18,11 @@ So, You can start to note by Click [`Use this template`](https://github.com/azu/
 
 [Usage](guide/USAGE.md) introduce how you edit memo and publish it as article.
 
+## Structure
+
+- Your memo: [data/](data/)
+- Your posts: [docs/](docs/)
+
 ---
 
 This repository is based on [hubmemo](https://github.com/azu/hubmemo).
