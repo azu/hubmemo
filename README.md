@@ -4,7 +4,7 @@ Private/Public Memo system based on GitHub.
 
 This memo systems heavily use GitHub Actions and This repository is a template repository.
 
-So, You can start to note by Click [`Use this template`](https://github.com/azu/hubmemo/generate) and a few [Setup](guide/SETUP.md)!
+So, You can start to note by Click [`Use this template`](https://github.com/azu/hubmemo/generate), and a few [Setup](guide/SETUP.md)!
 
 ## Guide
 
