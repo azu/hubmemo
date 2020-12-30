@@ -2,10 +2,15 @@
 
 Private/Public Memo system based on GitHub.
 
-## Usage
+## Guide
 
-- Update memo
-- Publish post
+### [Setup](guide/SETUP.md)
+
+[SETUP guide](guide/SETUP.md) introduce that you must set up at first.
+
+### [Usage](guide/USAGE.md)
+
+[Usage](guide/USAGE.md) introduce how you edit memo and publish it as article.
 
 ---
 

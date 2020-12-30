@@ -2,13 +2,9 @@
   "name": "@hubmemo/update-draft-pr",
   "version": "1.0.0",
   "description": "",
-  "homepage": "https://github.com/jser/jser.github.io/tree/master/actions/update-draft-pr/",
+  "homepage": "https://github.com/azu/hubmemo",
   "bugs": {
-    "url": "https://github.com/jser/jser.github.io/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jser/jser.github.io.git"
+    "url": "https://github.com/azu/hubmemo/issues"
   },
   "license": "MIT",
   "author": "azu",
