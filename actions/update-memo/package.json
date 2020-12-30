@@ -13,7 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "korefile": "^2.1.0",
-    "asocial-bookmark": "^1.5.1",
+    "asocial-bookmark": "^1.5.2",
     "markdown-escape": "^1.1.0"
   },
   "devDependencies": {
