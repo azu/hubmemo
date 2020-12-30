@@ -50,9 +50,12 @@ async function main() {
     const clientPayload = JSON.parse(PAYLOAD) as ClientPayload;
     const ref = clientPayload._test_ref_ ?? GITHUB_REF.replace(/^refs\//, "");
     const branch = ref.replace(/^heads\//, "")
+    const isGitHubIO = repo.includes(".github.io");
     const POSTS_JSON_URL = process.env.WEBSITE_BASE_URL
         ? `${process.env.WEBSITE_BASE_URL}/posts.json`
-        : `https://${owner}.github.io/${repo}/posts.json`;
+        : isGitHubIO
+            ? `https://${owner}.github.io/posts.json`
+            : `https://${owner}.github.io/${repo}/posts.json`;
 
     // TODO: Configurable?
     const dataRoot = path.resolve(path.join(__dirname, "../../data"));
