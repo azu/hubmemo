@@ -95,5 +95,5 @@ url: "https://your-netlify-name.netlify.app" # the base hostname & protocol for 
         env:
           PAYLOAD: ${{ toJSON(github.event.client_payload) }}
           PRIVATE: ${{ github.event.repository.private }}
-+          WEBSITE_BASE_URL: "https://your-netlify-name.netlify.app"
++         WEBSITE_BASE_URL: "https://your-netlify-name.netlify.app"
 ```
