@@ -44,7 +44,6 @@ jobs:
             - [ ] Write Headline
           labels: |
             Type:Post
-          draft: true
       - name: Check Draft Post PR
         run: |
           echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
