@@ -1,10 +1,10 @@
 import path from "path";
-import { getUnpublishedItems } from "./lib/unpublish-items";
-import { copyResources } from "./lib/copy-resources";
-import { createContent } from "./lib/create-content";
+import { getUnpublishedItems } from "./src/unpublish-items";
+import { copyResources } from "./src/copy-resources";
+import { createContent } from "./src/create-content";
 import * as fs from "fs";
 import dayjs from "dayjs";
-import { MemoItem } from "./lib/MemoItem";
+import { MemoItem } from "./src/MemoItem";
 
 /**
  Env

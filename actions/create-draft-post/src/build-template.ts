@@ -1,6 +1,7 @@
 import fs from "fs";
 import Handlebars from "handlebars";
 import { MemoItem } from "./MemoItem";
+
 Handlebars.registerHelper('auto_format_md', function (text) {
     return text.trim();
 });
@@ -24,14 +25,6 @@ Handlebars.registerHelper('ttp', function (text) {
 
 /**
  *
- * @param {string} title
- * @param {string} author
- * @param {string} category
- * @param {Date} date
- * @param {string[]} tags
- * @param {number} weekNumber
- * @param {Object} groupsByHeader
- * @returns {string}
  */
 export function createMarkdown({
                                    title,
@@ -47,7 +40,7 @@ export function createMarkdown({
     category: string,
     tags: string[],
     items: MemoItem[]
-}) {
+}): string {
     const source = fs.readFileSync(__dirname + "/template.handlebars", "utf-8");
     const template = Handlebars.compile(source);
     return template({
