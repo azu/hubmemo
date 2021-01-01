@@ -6,7 +6,7 @@ on:
 
 jobs:
   update-draft-post:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'Type:Post')
     steps:
       - name: Checkout

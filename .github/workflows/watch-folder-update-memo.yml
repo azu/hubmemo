@@ -7,7 +7,7 @@ on:
 
 jobs:
   update-memo:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -17,10 +17,9 @@ jobs:
           node-version: 14
       # Update Memo
       - name: Update Memo
-        run: yarn install && yarn ts-node-transpile-only watch-folder-index.ts
+        run: cd actions/update-memo && yarn install && yarn ts-node-transpile-only watch-folder-index.ts
         env:
           UPDATE_MARKDOWN: true
-        working-directory: actions/update-memo
       - name: Commit Memo
         uses: EndBug/add-and-commit@v6
         with:
