@@ -88,13 +88,16 @@ export async function updateMemo({
             console.log(`Upload media`, uploadMedias);
             await korefile.writeFiles(uploadMedias)
         }
-        await Promise.all(mediaList.filter(isClientPayloadMediaFile).map(media => {
-            const newImageFilePath = path.resolve(path.join(bookmarkBasePath, "img", path.basename(media.filePath)));
-            console.log(`Move media: ${media.filePath} → ${newImageFilePath}`);
-            return moveFile(media.filePath, newImageFilePath, {
-                overwrite: true
-            });
-        }));
+        await Promise.all(
+            mediaList.filter(isClientPayloadMediaFile).map(media => {
+                const newImageFilePath = path.resolve(path.join(bookmarkBasePath, "img", path.basename(media.filePath)));
+                return moveFile(media.filePath, newImageFilePath, {
+                    overwrite: true
+                }).then(() => {
+                    console.log(`Move media: ${media.filePath} → ${newImageFilePath}`);
+                });
+            })
+        );
         return mediaList.map(media => {
             if (isClientPayloadMediaFile(media)) {
                 return {
@@ -124,6 +127,7 @@ export async function updateMemo({
         const items = await asocialBookmark.getBookmarksAt(now);
         const filePath = path.join(bookmarkBasePath, "README.md");
         await korefile.writeFile(filePath, createMarkdown(items, githubRepoBaseURL));
+        console.log("Update Markdown", filePath)
     }
 }
 
