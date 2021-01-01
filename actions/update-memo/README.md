@@ -13,7 +13,7 @@ type ClientPayload = {
         url: string;
         content: string;
         tags: string[];
-        date: string;
+        date?: string;
         viaURL?: string;
         relatedItems?: { title: string, url: string }[]
     }

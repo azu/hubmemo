@@ -43,7 +43,7 @@ type PayloadMemoItem = {
     title: string
     content: string;
     tags: string[];
-    date: string;
+    date?: string;
     viaURL?: string;
     relatedItems?: { title: string, url: string }[]
     private: boolean;
