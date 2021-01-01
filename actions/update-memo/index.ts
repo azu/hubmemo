@@ -74,9 +74,12 @@ export async function updateMemo({
     const githubRepoBaseURL = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${bookmarkBasePath}`;
     // Upload or move Images
     const createMediaList = async (mediaList: ClientPayloadMedia[] = []): Promise<MemoItem["media"]> => {
+        await fs.promises.mkdir(path.join(bookmarkBasePath, "img"), {
+            recursive: true
+        })
         const uploadMedias = mediaList.filter(isClientPayloadInlineMedia).map(media => {
             return {
-                path: `${bookmarkBasePath}/img/${media.fileName}`,
+                path: path.join(bookmarkBasePath, "img", media.fileName),
                 content: Buffer.from(media.content, "base64")
             }
         });
