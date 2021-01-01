@@ -71,7 +71,8 @@ export async function updateMemo({
             cwd: projectRoot
         })
     });
-    const bookmarkBasePath = path.join(projectRoot, createBookmarkFilePath(filePathTemplate, now));
+    const bookmarkBasePath = createBookmarkFilePath(filePathTemplate, now);
+    const absoluteBookmarkBasePath = path.join(projectRoot, bookmarkBasePath);
     const githubRepoBaseURL = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${bookmarkBasePath}`;
     // Upload or move Images
     const createMediaList = async (mediaList: ClientPayloadMedia[] = []): Promise<MemoItem["media"]> => {
@@ -80,6 +81,7 @@ export async function updateMemo({
         })
         const uploadMedias = mediaList.filter(isClientPayloadInlineMedia).map(media => {
             return {
+                // relative
                 path: path.join(bookmarkBasePath, "img", media.fileName),
                 content: Buffer.from(media.content, "base64")
             }
@@ -90,7 +92,7 @@ export async function updateMemo({
         }
         await Promise.all(
             mediaList.filter(isClientPayloadMediaFile).map(media => {
-                const newImageFilePath = path.resolve(path.join(bookmarkBasePath, "img", path.basename(media.filePath)));
+                const newImageFilePath = path.resolve(path.join(absoluteBookmarkBasePath, "img", path.basename(media.filePath)));
                 return moveFile(media.filePath, newImageFilePath, {
                     overwrite: true
                 }).then(() => {
