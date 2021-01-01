@@ -6,8 +6,9 @@ If you push files to `watch-folder`, `watch-folder-*.yml` action process it.
 
 ### `update-memo/*`
 
-- If you add the json file to `update-memo/`
-  directory, [watch-folder-update-memo.yml](../.github/workflows/watch-folder-update-memo.yml) process it.
+If you add the json file to `watch_folder/update-memo/` directory, [watch-folder-update-memo.yml](../.github/workflows/watch-folder-update-memo.yml) process it and output to `data/*`.
+
+- `watch_folder/update-memo/*.json` → `data/{year}/README.md`
 
 Structure:
 
