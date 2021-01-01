@@ -4,6 +4,7 @@ import { AsocialBookmark, AsocialBookmarkItem, createBookmarkFilePath } from "as
 import escape from "markdown-escape";
 import * as path from "path";
 import * as fs from "fs";
+import moveFile from "move-file";
 import {
     ClientPayload,
     ClientPayloadMedia,
@@ -90,8 +91,9 @@ export async function updateMemo({
         await Promise.all(mediaList.filter(isClientPayloadMediaFile).map(media => {
             const newImageFilePath = path.resolve(path.join(bookmarkBasePath, "img", path.basename(media.filePath)));
             console.log(`Move media: ${media.filePath} → ${newImageFilePath}`);
-            return fs.promises
-                .rename(media.filePath, newImageFilePath);
+            return moveFile(media.filePath, newImageFilePath, {
+                overwrite: true
+            });
         }));
         return mediaList.map(media => {
             if (isClientPayloadMediaFile(media)) {
