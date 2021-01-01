@@ -71,7 +71,7 @@ export async function updateMemo({
             cwd: projectRoot
         })
     });
-    const bookmarkBasePath = createBookmarkFilePath(filePathTemplate, now);
+    const bookmarkBasePath = path.join(projectRoot, createBookmarkFilePath(filePathTemplate, now));
     const githubRepoBaseURL = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${bookmarkBasePath}`;
     // Upload or move Images
     const createMediaList = async (mediaList: ClientPayloadMedia[] = []): Promise<MemoItem["media"]> => {
