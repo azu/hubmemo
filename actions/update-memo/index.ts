@@ -88,7 +88,7 @@ export async function updateMemo({
             await korefile.writeFiles(uploadMedias)
         }
         await Promise.all(mediaList.filter(isClientPayloadMediaFile).map(media => {
-            const newImageFilePath = path.join(bookmarkBasePath, "img", path.basename(media.filePath));
+            const newImageFilePath = path.resolve(path.join(bookmarkBasePath, "img", path.basename(media.filePath)));
             console.log(`Move media: ${media.filePath} → ${newImageFilePath}`);
             return fs.promises
                 .rename(media.filePath, newImageFilePath);
