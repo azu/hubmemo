@@ -84,11 +84,14 @@ export async function updateMemo({
             }
         });
         if (uploadMedias.length > 0) {
+            console.log(`Upload media`, uploadMedias);
             await korefile.writeFiles(uploadMedias)
         }
         await Promise.all(mediaList.filter(isClientPayloadMediaFile).map(media => {
+            const newImageFilePath = path.join(bookmarkBasePath, "img", path.basename(media.filePath));
+            console.log(`Move media: ${media.filePath} → ${newImageFilePath}`);
             return fs.promises
-                .rename(media.filePath, path.join(bookmarkBasePath, "img", path.basename(media.filePath)));
+                .rename(media.filePath, newImageFilePath);
         }));
         return mediaList.map(media => {
             if (isClientPayloadMediaFile(media)) {
@@ -117,7 +120,7 @@ export async function updateMemo({
     if (UPDATE_MARKDOWN) {
         // Create Markdown
         const items = await asocialBookmark.getBookmarksAt(now);
-        const filePath = bookmarkBasePath + "/README.md";
+        const filePath = path.join(bookmarkBasePath, "README.md");
         await korefile.writeFile(filePath, createMarkdown(items, githubRepoBaseURL));
     }
 }
