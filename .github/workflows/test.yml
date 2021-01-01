@@ -2,7 +2,7 @@ name: test
 on: [push, pull_request]
 jobs:
   test:
-    if: ${{ env.GITHUB_REPOSITORY }} == 'azu/hubmemo'
+    if: '${{ env.GITHUB_REPOSITORY }}' == 'azu/hubmemo'
     name: "Test on Node.js ${{ matrix.node-version }}"
     runs-on: ubuntu-18.04
     strategy:
