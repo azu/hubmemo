@@ -23,6 +23,7 @@ jobs:
         uses: EndBug/add-and-commit@v6
         with:
           message: "Update Memo"
+          add: 'tags.json data/'
           push: true
       # Create draft and create pull request
       - name: Create Draft Post
