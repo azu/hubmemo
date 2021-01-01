@@ -45,6 +45,10 @@ if (require.main === module) {
                 CLIENT_PAYLOAD: payload
             });
         }
+        // remove all json
+        for (const jsonFile of jsonFiles) {
+            await fs.promises.rm(jsonFile);
+        }
     })().catch(error => {
         console.error(error);
         process.exit(1);
