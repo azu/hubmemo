@@ -30,7 +30,7 @@ jobs:
       - name: Create Draft Post
         run: yarn install && yarn ts-node-transpile-only index.ts
         env:
-          PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+          PAYLOAD: ${{ toJSON("{}") }}
           PRIVATE: ${{ github.event.repository.private }}
         working-directory: actions/create-draft-post
       - name: Create Draft Pull Request

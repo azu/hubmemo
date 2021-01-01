@@ -24,7 +24,7 @@ type ClientPayload = {
     /**
      * For Test
      */
-    _test_ref_: string
+    _test_ref_?: string
 }
 
 async function main() {
