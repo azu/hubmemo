@@ -13,7 +13,7 @@ export async function createContent({
 }) {
     // Top 5 tags
     const allTags: string[] = [];
-    forPublishItems.forEach(item => item.tags.forEach(tag => allTags.push(tag)));
+    forPublishItems.forEach(item => item.tags?.forEach(tag => allTags.push(tag)));
     const countMap = new Map();
     allTags.forEach(tag => countMap.set(tag, (countMap.get(tag) || 0) + 1));
     const sortedTagTuple = Array.from(countMap.entries()).sort((a, b) => b[1] - a[1]);

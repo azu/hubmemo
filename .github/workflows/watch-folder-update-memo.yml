@@ -24,7 +24,6 @@ jobs:
         uses: EndBug/add-and-commit@v6
         with:
           message: "Update Memo"
-          add: 'tags.json data/ watch-folder/update-memo/' # change watch-folder/update-memo
           push: true
       # Create draft and create pull request
       - name: Create Draft Post
