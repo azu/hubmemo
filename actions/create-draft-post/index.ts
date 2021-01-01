@@ -115,7 +115,7 @@ async function main() {
     await fs.promises.writeFile(postFilePath, content, "utf-8")
 }
 
-if (require.main) {
+if (require.main === module) {
     main().catch(error => {
         console.error(error);
         process.exit(1);

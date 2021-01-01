@@ -3,29 +3,15 @@ import { AsocialBookmark, AsocialBookmarkItem, createBookmarkFilePath } from "as
 // @ts-expect-error: need @types
 import escape from "markdown-escape";
 import * as path from "path";
-
-type MemoItem = AsocialBookmarkItem & {
-    private: boolean;
-    media: { url: string }[]
-}
-/**
- * @example
- *
- */
-type ClientPayload = {
-    item: AsocialBookmarkItem & {
-        private: boolean;
-        media: {
-            fileName: string;
-            /* base64 */
-            content: string
-        }[];
-    }
-    /**
-     * For Test
-     */
-    _test_ref_: string
-}
+import * as fs from "fs";
+import {
+    ClientPayload,
+    ClientPayloadMedia,
+    isClientPayloadInlineMedia,
+    isClientPayloadMediaFile,
+    MemoItem,
+    parseEnv
+} from "./env";
 /*
     Env
       GITHUB_TOKEN=xxx
@@ -49,29 +35,21 @@ ${item.content}
     }).join("\n\n----\n\n");
 };
 
-async function main() {
-    // const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-    // if (!GITHUB_TOKEN) {
-    //     throw new Error("require GH_TOKEN env");
-    // }
-    const GITHUB_REPOSITORY = process.env.GITHUB_REPOSITORY;
-    if (!GITHUB_REPOSITORY) {
-        throw new Error("require GITHUB_REPOSITORY env")
-    }
-    const GITHUB_REF = process.env.GITHUB_REF;
-    if (!GITHUB_REF) {
-        throw new Error("require GITHUB_BRANCH env")
-    }
-    const PAYLOAD = process.env.PAYLOAD;
-    if (!PAYLOAD) {
-        throw new Error("require PAYLOAD env")
-    }
-    const UPDATE_MARKDOWN = Boolean(process.env.UPDATE_MARKDOWN);
-    const clientPayload = JSON.parse(PAYLOAD) as ClientPayload;
-    const payloadItem = clientPayload.item;
+export async function updateMemo({
+                                     GITHUB_REPOSITORY,
+                                     GITHUB_REF,
+                                     UPDATE_MARKDOWN,
+                                     CLIENT_PAYLOAD
+                                 }: {
+    GITHUB_REPOSITORY: string,
+    GITHUB_REF: string,
+    UPDATE_MARKDOWN: boolean,
+    CLIENT_PAYLOAD: ClientPayload
+}) {
+    const payloadItem = CLIENT_PAYLOAD.item;
     const [owner, repo] = GITHUB_REPOSITORY.split("/");
     // test
-    const ref = clientPayload._test_ref_ ?? GITHUB_REF.replace(/^refs\//, "");
+    const ref = CLIENT_PAYLOAD._test_ref_ ?? GITHUB_REF.replace(/^refs\//, "");
     const branch = ref.replace(/^heads\//, "")
     console.log("Update Repository", {
         owner,
@@ -94,22 +72,36 @@ async function main() {
     });
     const bookmarkBasePath = createBookmarkFilePath(filePathTemplate, now);
     const githubRepoBaseURL = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${bookmarkBasePath}`;
-    // Upload Images
-    const mediaList = payloadItem.media ?? [];
-    const imgFiles = mediaList.map(media => {
-        return {
-            path: `${bookmarkBasePath}/img/${media.fileName}`,
-            content: Buffer.from(media.content, "base64")
+    // Upload or move Images
+    const createMediaList = async (mediaList: ClientPayloadMedia[] = []): Promise<MemoItem["media"]> => {
+        const uploadMedias = mediaList.filter(isClientPayloadInlineMedia).map(media => {
+            return {
+                path: `${bookmarkBasePath}/img/${media.fileName}`,
+                content: Buffer.from(media.content, "base64")
+            }
+        });
+        if (uploadMedias.length > 0) {
+            await korefile.writeFiles(uploadMedias)
         }
-    });
-    const mediaItems = mediaList.map(media => {
-        return {
-            url: `${githubRepoBaseURL}/img/${media.fileName}`
-        }
-    })
-    if (imgFiles.length > 0) {
-        await korefile.writeFiles(imgFiles)
+        await Promise.all(mediaList.filter(isClientPayloadMediaFile).map(media => {
+            return fs.promises
+                .rename(media.filePath, path.join(bookmarkBasePath, "img", path.basename(media.filePath)));
+        }));
+        return mediaList.map(media => {
+            if (isClientPayloadMediaFile(media)) {
+                return {
+                    url: `${githubRepoBaseURL}/img/${path.basename(media.filePath)}`
+                };
+            }
+            if (isClientPayloadInlineMedia(media)) {
+                return {
+                    url: `${githubRepoBaseURL}/img/${media.fileName}`
+                };
+            }
+            throw new Error("Unknown media type" + media);
+        })
     }
+    const mediaItems = await createMediaList(CLIENT_PAYLOAD.item.media);
     const isoDate = now.toISOString();
     const item = {
         ...payloadItem,
@@ -127,8 +119,17 @@ async function main() {
     }
 }
 
-if (require.main) {
-    main().catch(error => {
+if (require.main === module) {
+    const PAYLOAD = process.env.PAYLOAD;
+    if (!PAYLOAD) {
+        throw new Error("require PAYLOAD env")
+    }
+    const CLIENT_PAYLOAD = JSON.parse(PAYLOAD) as ClientPayload;
+    const env = parseEnv();
+    updateMemo({
+        ...env,
+        CLIENT_PAYLOAD
+    }).catch(error => {
         console.error(error);
         process.exit(1);
     });

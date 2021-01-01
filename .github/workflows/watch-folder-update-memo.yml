@@ -1,7 +1,10 @@
-name: Dispatch Update Memo
+name: Watch Folder Update Memo
+# If add json in watch-folder/update-memo/, update it as memo
 on:
-  repository_dispatch:
-    types: [update-memo]
+  push:
+    paths:
+      - 'watch-folder/update-memo/*.json'
+
 jobs:
   update-memo:
     runs-on: ubuntu-latest
@@ -14,9 +17,8 @@ jobs:
           node-version: 14
       # Update Memo
       - name: Update Memo
-        run: yarn install && yarn ts-node-transpile-only index.ts
+        run: yarn install && yarn ts-node-transpile-only watch-folder-index.ts
         env:
-          PAYLOAD: ${{ toJSON(github.event.client_payload) }}
           UPDATE_MARKDOWN: true
         working-directory: actions/update-memo
       - name: Commit Memo
