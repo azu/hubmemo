@@ -1,4 +1,4 @@
-name: Watch Folder Update Memo
+name: Issue update memo
 # If create an issue with "Type:Memo", create a memo from issue.
 on:
   issues:
