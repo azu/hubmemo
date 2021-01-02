@@ -11,8 +11,8 @@ import { Octokit } from "@octokit/rest";
  */
 /*
     ENV
-        GITHUB_TOKEN : github toen
-        ISSUES: github.event.issues
+        GITHUB_TOKEN : github token
+        ISSUE: github.event.issues.issue
         DISABLE_NOTIFICATION: true or false
         https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhook-events-and-payloads#issues
 
@@ -48,18 +48,18 @@ const getURLInBody = (body: string) => {
     }
     return;
 }
-export const createPayloadFromIssueEvent = (issues: Issues): ClientPayload | Error => {
-    const url = getURLInBody(issues.issue.body);
+export const createPayloadFromIssueEvent = (issue: Issues["issue"]): ClientPayload | Error => {
+    const url = getURLInBody(issue.body);
     if (!url) {
         return new Error("Not found <url> in issue body");
     }
-    const isPrivate = issues.issue.labels.some(label => /Type:\s*Private/i.test(label.name));
+    const isPrivate = issue.labels.some(label => /Type:\s*Private/i.test(label.name));
     // should have one of
-    const title = issues.issue.title;
-    const content = issues.issue.body;
-    const tags = issues.issue.labels.map(label => getTagFromLabel(label.name)).filter(label => !!label) as string[];
-    const date = issues.issue.updated_at; // ISO string
-    const viaURL = issues.issue.html_url;
+    const title = issue.title;
+    const content = issue.body;
+    const tags = issue.labels.map(label => getTagFromLabel(label.name)).filter(label => !!label) as string[];
+    const date = issue.updated_at; // ISO string
+    const viaURL = issue.html_url;
     return {
         item: {
             private: isPrivate,
@@ -78,20 +78,20 @@ if (require.main === module) {
     (async function () {
         const env = parseEnv();
 
-        const ISSUES = process.env.ISSUES;
-        if (!ISSUES) {
+        const ISSUE = process.env.ISSUE;
+        if (!ISSUE) {
             throw new Error("require ISSUES env")
         }
         const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-        if (!ISSUES) {
+        if (!GITHUB_TOKEN) {
             throw new Error("require GITHUB_TOKEN env")
         }
         const DISABLE_NOTIFICATION = process.env.DISABLE_NOTIFICATION === "true";
         const github = new Octokit({
             auth: GITHUB_TOKEN
         });
-        const issuesEvent = JSON.parse(ISSUES) as Issues;
-        const CLIENT_PAYLOAD = createPayloadFromIssueEvent(issuesEvent);
+        const issueEvent = JSON.parse(ISSUE) as Issues["issue"];
+        const CLIENT_PAYLOAD = createPayloadFromIssueEvent(issueEvent);
         if (CLIENT_PAYLOAD instanceof Error) {
             throw CLIENT_PAYLOAD
         }
@@ -102,18 +102,18 @@ if (require.main === module) {
             });
             if (!DISABLE_NOTIFICATION) {
                 await github.issues.createComment({
-                    issue_number: issuesEvent.issue.number,
-                    owner: issuesEvent.repository.owner.login,
-                    repo: issuesEvent.repository.name,
+                    issue_number: issueEvent.number,
+                    owner: issueEvent.owner.login,
+                    repo: issueEvent.name,
                     body: `📝 Create new memo in ${result.memoBaseURL}`
                 });
             }
         } catch (error) {
             if (!DISABLE_NOTIFICATION) {
                 await github.issues.createComment({
-                    issue_number: issuesEvent.issue.number,
-                    owner: issuesEvent.repository.owner.login,
-                    repo: issuesEvent.repository.name,
+                    issue_number: issueEvent.number,
+                    owner: issueEvent.owner.login,
+                    repo: issueEvent.name,
                     body: `📝 Can not create new memo`
                 });
             }

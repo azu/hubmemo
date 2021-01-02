@@ -5,7 +5,7 @@ import issues from "./fixtures/issues.json";
 
 describe('createPayloadFromIssueEvent', function () {
     it("should return payload", () => {
-        const payload = createPayloadFromIssueEvent(issues);
+        const payload = createPayloadFromIssueEvent(issues.issue);
         assert.deepStrictEqual(payload, {
                 "item": {
                     "private": false,
