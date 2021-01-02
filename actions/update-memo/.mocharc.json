@@ -1,0 +1,5 @@
+{
+  "register": [
+    "ts-node/register"
+  ]
+}

@@ -1,13 +1,13 @@
 name: Watch Folder Update Memo
-# If add json in watch-folder/update-memo/, update it as memo
+# If create an issue with "Type:Memo", create a memo from issue.
 on:
-  push:
-    paths:
-      - 'watch-folder/update-memo/*.json'
+  issues:
+    types: [opened, edited, labeled]
 
 jobs:
   update-memo:
     runs-on: ubuntu-18.04
+    if: github.event_name == 'issues' && contains(github.event.pull_request.labels.*.name, 'Type:Memo')
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -17,8 +17,9 @@ jobs:
           node-version: 14
       # Update Memo
       - name: Update Memo
-        run: cd actions/update-memo && yarn install && yarn ts-node-transpile-only index-watch-folder.ts
+        run: cd actions/update-memo && yarn install && yarn ts-node-transpile-only index-issue.ts
         env:
+          ISSUES: ${{ toJSON(github.event.issues) }}
           UPDATE_MARKDOWN: true
       - name: Commit Memo
         uses: EndBug/add-and-commit@v6
@@ -29,7 +30,7 @@ jobs:
       - name: Create Draft Post
         run: yarn install && yarn ts-node-transpile-only index.ts
         env:
-          PAYLOAD: "{}"
+          ISSUES: ${{ toJSON(github.event.issues) }}
           PRIVATE: ${{ github.event.repository.private }}
         working-directory: actions/create-draft-post
       - name: Create Draft Pull Request

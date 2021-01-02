@@ -1,5 +1,10 @@
 # Update Memo
 
+- index.ts: From dispatch-update-memo.yml
+- index-issue: From issue-update-memo.yml
+- index-manual.ts: From manual-update-memo.yml
+- index-watch-folder.ts: From watch-folder-update-memo.yml
+
 ## Payload
 
 Payload format

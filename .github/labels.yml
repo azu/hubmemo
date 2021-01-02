@@ -1,0 +1,13 @@
+# Special
+- name: "Type:Memo"
+  color: "7057ff"
+  aliases: []
+  description: "[HubMemo] issue memo trigger label"
+- name: "Type:Private"
+  color: "7057ff"
+  aliases: []
+  description: "[HubMemo] make issue memo as private"
+- name: "Type:Post"
+  color: "7057ff"
+  aliases: []
+  description: "[HubMemo] issue memo post update trigger label"
