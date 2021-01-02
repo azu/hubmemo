@@ -73,10 +73,10 @@ type PayloadMemoItem = {
 
 :memo: Note to the behavior of Add multiple `watch_folder/update-memo/*.json` at once.
 
-If you add multiple `watch_folder/update-memo/*.json` at once, Hubmemo merge some property on same `url` key.
+If you add multiple `watch_folder/update-memo/*.json` at once, HubMemo merge some property on same `url` key.
 It aims to avoid limitation of iOS's shortcuts.app. The limitation is that it can not create a dynamic dictionary of array. 
 
-So, Hubmemo create a single memo from multiple `watch_folder/update-memo/*.json` on same `url` key items 
+So, HubMemo create a single memo from multiple `watch_folder/update-memo/*.json` on same `url` key items 
 
 - Merge `media` between same `url` key items
 - Merge `tags` between same `url` key items  

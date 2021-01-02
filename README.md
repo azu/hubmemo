@@ -1,4 +1,4 @@
-# Hubmemo
+# HubMemo
 
 Private/Public Memo system based on GitHub.
 
@@ -25,4 +25,4 @@ So, You can start to note by Click [`Use this template`](https://github.com/azu/
 
 ---
 
-This repository is based on [hubmemo](https://github.com/azu/hubmemo).
+This repository is based on [HubMemo](https://github.com/azu/hubmemo).
