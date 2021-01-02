@@ -16,7 +16,7 @@ const WATCH_FOLDER_UPDATE_MEMO_DIR = path.join(__dirname, "../../watch-folder/up
 if (require.main === module) {
     (async function () {
         const env = parseEnv();
-        // normalize watch-folder/update-memo/*.json
+        // create CLIENT_PAYLOAD from watch-folder/update-memo/*.json
         const dirents = await fs.promises.readdir(WATCH_FOLDER_UPDATE_MEMO_DIR, {
             withFileTypes: true
         });
@@ -30,16 +30,34 @@ if (require.main === module) {
             return {
                 item: {
                     ...payload.item,
-                    media: payload.item.media?.map(media => {
-                        return {
-                            // absolute file path
-                            filePath: path.resolve(path.join(path.dirname(jsonFilePath), media.relativeFilePath))
-                        }
-                    })
+                    tags: payload.item.tags ?? [],
+                    media: payload.item.media ?
+                        payload.item.media.map(media => {
+                            return {
+                                // absolute file path
+                                filePath: path.resolve(path.join(path.dirname(jsonFilePath), media.relativeFilePath))
+                            }
+                        })
+                        : []
                 }
             }
-        })
-        for (const payload of payloadList) {
+        });
+        // If same Payload identifier(url), merge it
+        const mergedPayloadList = payloadList.reduce((payloadList, currentPayload) => {
+            const sameIdPayload = payloadList.find(p => p.item.url === currentPayload.item.url);
+            if (sameIdPayload) {
+                // Merge media current to existing instead of adding
+                // merge tags and unique
+                sameIdPayload.item.tags = Array.from(new Set(sameIdPayload.item.tags.concat(currentPayload.item.tags)));
+                // merge media list
+                sameIdPayload.item.media = sameIdPayload.item.media.concat(currentPayload.item.media);
+            } else {
+                payloadList.push(currentPayload);
+            }
+            return payloadList;
+        }, [] as ClientPayload[]);
+
+        for (const payload of mergedPayloadList) {
             await updateMemo({
                 ...env,
                 CLIENT_PAYLOAD: payload

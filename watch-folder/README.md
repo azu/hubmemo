@@ -4,7 +4,7 @@ If you push files to `watch-folder`, `watch-folder-*.yml` action process it.
 
 ## Folder Conventions
 
-### `update-memo/*`
+### `watch_folder/update-memo/*.json`
 
 If you add the json file to `watch_folder/update-memo/` directory, [watch-folder-update-memo.yml](../.github/workflows/watch-folder-update-memo.yml) process it and output to `data/*`.
 
@@ -51,6 +51,17 @@ type PayloadMemoItem = {
     media?: { relativeFilePath: string }[]
 }
 ```
+
+:memo: Note to the behavior of Add multiple `watch_folder/update-memo/*.json` at once.
+
+If you add multiple `watch_folder/update-memo/*.json` at once, Hubmemo merge some property on same `url` key.
+It aims to avoid limitation of iOS's shortcuts.app. The limitation is that it can not create dynamic dictionary of array. 
+
+So, Hubmemo create a single memo from multiple `watch_folder/update-memo/*.json` on same `url` key items 
+
+- Merge `media` between same `url` key items
+- Merge `tags` between same `url` key items  
+- Merge other properties between same `url` key items
 
 ## UseCase
 
