@@ -121,7 +121,7 @@ Tips: `title` and `body`  parameter as placeholder.
 
 `https://github.com/<username>/<repo>/issues/new?assignees=&labels=Type%3AMemo&template=memo.md&title=%3Ctitle%3E&body=%3Curl%3E%0ddescription`
 
-Example: [New Example title · Issue #4 · azu/hubmemo-sandbox](https://github.com/azu/hubmemo-sandbox/issues/4)
+Example: [New Example Memo · Issue #4 · azu/hubmemo-sandbox](https://github.com/azu/hubmemo-sandbox/issues/4)
 
 ## Publish Post
 

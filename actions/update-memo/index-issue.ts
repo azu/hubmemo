@@ -39,7 +39,7 @@ const splitURL = (body: string) => {
     if (strictMatch) {
         return {
             url: strictMatch[1],
-            body: strictMatch[2].trim()
+            body: strictMatch[2]?.trim() ?? ""
         }
     }
     const LooseURLPattern = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)([\s\S]+)/
@@ -47,7 +47,7 @@ const splitURL = (body: string) => {
     if (looseMatch) {
         return {
             url: looseMatch[1],
-            body: looseMatch[2].trim()
+            body: looseMatch[2]?.trim() ?? ""
         }
     }
     return;
