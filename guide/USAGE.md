@@ -26,6 +26,15 @@ type Memo = {
 
 Also, HubMemo create a memo as Markdown for human-readable in same directory of JSON.
 
+```markdown
+## {title}
+
+{content}
+
+{media}
+{relatedItems}
+```
+
 ## Update Memo
 
 HubMemo use GitHub Actions for updating flow.
