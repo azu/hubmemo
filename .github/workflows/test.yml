@@ -4,6 +4,7 @@ jobs:
   test:
     name: "Test on Node.js ${{ matrix.node-version }}"
     runs-on: ubuntu-18.04
+    if: github.repository.full_name == 'azu/hubmemo' # for testing hubmeme-self
     strategy:
       matrix:
         node-version: [14]
