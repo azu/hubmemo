@@ -57,6 +57,8 @@ You can use GUI using [manual-update-memo.yml](../.github/workflows/watch-folder
 2. Run this workflow
 3. Input and submit
 
+![manual-update-memo](img/manual-update-memo.png)
+
 ## Publish Post
 
 [dispatch-update-memo.yml](../.github/workflows/dispatch-update-memo.yml) also create Draft Pull Request!
