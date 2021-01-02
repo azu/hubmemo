@@ -19,9 +19,10 @@ jobs:
       - name: Update Memo
         run: cd actions/update-memo && yarn install && yarn ts-node-transpile-only index-issue.ts
         env:
-          ISSUES: ${{ toJSON(github.event.issues) }}
+          ISSUE: ${{ toJSON(github.event.issue) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           UPDATE_MARKDOWN: true
+          DISABLE_NOTIFICATION: "false" # if true, do not comment as reply
       - name: Commit Memo
         uses: EndBug/add-and-commit@v6
         with:
@@ -31,9 +32,8 @@ jobs:
       - name: Create Draft Post
         run: yarn install && yarn ts-node-transpile-only index.ts
         env:
-          ISSUE: ${{ toJSON(github.event.issue) }}
+          PAYLOAD: "{}"
           PRIVATE: ${{ github.event.repository.private }}
-          DISABLE_NOTIFICATION: "false" # if true, do not comment as reply
         working-directory: actions/create-draft-post
       - name: Create Draft Pull Request
         id: cpr

@@ -80,7 +80,7 @@ if (require.main === module) {
 
         const ISSUE = process.env.ISSUE;
         if (!ISSUE) {
-            throw new Error("require ISSUES env")
+            throw new Error("require ISSUE env")
         }
         const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
         if (!GITHUB_TOKEN) {
