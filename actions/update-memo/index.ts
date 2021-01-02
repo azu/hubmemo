@@ -131,6 +131,10 @@ export async function updateMemo({
         await korefile.writeFile(filePath, createMarkdown(items, githubRepoBaseURL));
         console.log("Update Markdown", filePath)
     }
+    const memoBaseURL = `https://github.com/${owner}/${repo}/${branch}/${bookmarkBasePath}`
+    return {
+        memoBaseURL
+    }
 }
 
 if (require.main === module) {

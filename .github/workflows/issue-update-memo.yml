@@ -20,6 +20,7 @@ jobs:
         run: cd actions/update-memo && yarn install && yarn ts-node-transpile-only index-issue.ts
         env:
           ISSUES: ${{ toJSON(github.event.issues) }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           UPDATE_MARKDOWN: true
       - name: Commit Memo
         uses: EndBug/add-and-commit@v6

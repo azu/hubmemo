@@ -12,7 +12,7 @@
   "author": "azu",
   "license": "MIT",
   "dependencies": {
-    "@octokit/webhooks-definitions": "^3.25.2",
+    "@octokit/rest": "^18.0.12",
     "asocial-bookmark": "^1.5.2",
     "github-webhook-event-types": "^1.2.1",
     "korefile": "^2.1.0",

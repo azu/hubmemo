@@ -1,6 +1,7 @@
 import { updateMemo } from "./index";
 import { Issues } from "github-webhook-event-types";
 import { ClientPayload, parseEnv } from "./env";
+import { Octokit } from "@octokit/rest";
 
 /**
  * Create an memo from GitHub Issue
@@ -10,7 +11,9 @@ import { ClientPayload, parseEnv } from "./env";
  */
 /*
     ENV
+        GITHUB_TOKEN : github toen
         ISSUES: github.event.issues
+        DISABLE_NOTIFICATION: true or false
         https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhook-events-and-payloads#issues
 
 
@@ -74,21 +77,50 @@ export const createPayloadFromIssueEvent = (issues: Issues): ClientPayload | Err
 if (require.main === module) {
     (async function () {
         const env = parseEnv();
+
         const ISSUES = process.env.ISSUES;
         if (!ISSUES) {
             throw new Error("require ISSUES env")
         }
+        const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+        if (!ISSUES) {
+            throw new Error("require GITHUB_TOKEN env")
+        }
+        const DISABLE_NOTIFICATION = process.env.DISABLE_NOTIFICATION === "true";
+        const github = new Octokit({
+            auth: GITHUB_TOKEN
+        });
         const issuesEvent = JSON.parse(ISSUES) as Issues;
         const CLIENT_PAYLOAD = createPayloadFromIssueEvent(issuesEvent);
         if (CLIENT_PAYLOAD instanceof Error) {
             throw CLIENT_PAYLOAD
         }
-
-        return updateMemo({
-            ...env,
-            CLIENT_PAYLOAD
-        });
+        try {
+            const result = await updateMemo({
+                ...env,
+                CLIENT_PAYLOAD
+            });
+            if (!DISABLE_NOTIFICATION) {
+                await github.issues.createComment({
+                    issue_number: issuesEvent.issue.number,
+                    owner: issuesEvent.repository.owner.login,
+                    repo: issuesEvent.repository.name,
+                    body: `📝 Create new memo in ${result.memoBaseURL}`
+                });
+            }
+        } catch (error) {
+            if (!DISABLE_NOTIFICATION) {
+                await github.issues.createComment({
+                    issue_number: issuesEvent.issue.number,
+                    owner: issuesEvent.repository.owner.login,
+                    repo: issuesEvent.repository.name,
+                    body: `📝 Can not create new memo`
+                });
+            }
+            throw error;
+        }
     })().catch(error => {
+
         console.error(error);
         process.exit(1);
     });
