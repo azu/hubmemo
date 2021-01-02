@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       private:
-        description: "true or false"
+        description: "Private: true or false"
         required: true
         default: 'false'
       url:
