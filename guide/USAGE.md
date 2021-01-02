@@ -59,6 +59,29 @@ You can use GUI using [manual-update-memo.yml](../.github/workflows/watch-folder
 
 ![manual-update-memo](img/manual-update-memo.png)
 
+### Via Issue
+
+[issue-update-memo.yml](../.github/workflows/issue-update-memo.yml) Action create memo from GitHub issue.
+
+1. New Issue
+2. Click "New Memo" template
+3. Create an issue, and then [issue-update-memo.yml](../.github/workflows/issue-update-memo.yml) Action create memo from the issue.
+
+Mapping memo with Issue
+
+- `title`: Issue Title
+- `url`: Issue body first http url
+    - `<url>` or `url`
+- `content`: 
+
+
+
+Tips: `title` and `body`  parameter as placeholder.
+
+`https://github.com/<username>/<repo>/issues/new?assignees=&labels=Type%3AMemo&template=memo.md&title=%3Ctitle%3E&body=%3Curl%3E%0ddescription`
+
+Example: [New Example title · Issue #4 · azu/hubmemo-sandbox](https://github.com/azu/hubmemo-sandbox/issues/4)
+
 ## Publish Post
 
 [dispatch-update-memo.yml](../.github/workflows/dispatch-update-memo.yml) also create Draft Pull Request!

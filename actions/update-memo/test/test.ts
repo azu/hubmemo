@@ -10,10 +10,11 @@ describe('createPayloadFromIssueEvent', function () {
                 "item": {
                     "private": false,
                     "title": "Spelling error in the README file",
-                    "content": "<https://example.com>\n\ndescription",
+                    "content": "description",
                     "url": "https://example.com",
                     "tags": ["example"],
                     "date": issues.issue.updated_at,
+                    "viaURL": "https://github.com/Codertocat/Hello-World/issues/1",
                     "media": [],
                     "relatedItems": []
                 }

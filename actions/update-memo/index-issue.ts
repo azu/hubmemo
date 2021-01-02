@@ -33,30 +33,35 @@ const getTagFromLabel = (label: string) => {
  * get <URL> or URL from Markdown
  * @param body
  */
-const getURLInBody = (body: string) => {
-    const StrictURLPattern = /<(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*))>/
+const splitURL = (body: string) => {
+    const StrictURLPattern = /<(https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*))>([\s\S]+)/
     const strictMatch = body.match(StrictURLPattern);
-    const strictURL = strictMatch && strictMatch[1];
-    if (strictURL) {
-        return strictURL
+    if (strictMatch) {
+        return {
+            url: strictMatch[1],
+            body: strictMatch[2].trim()
+        }
     }
-    const LooseURLPattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+    const LooseURLPattern = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&//=]*)([\s\S]+)/
     const looseMatch = body.match(LooseURLPattern);
-    const looseURL = looseMatch && looseMatch[0];
-    if (looseURL) {
-        return looseURL;
+    if (looseMatch) {
+        return {
+            url: looseMatch[1],
+            body: looseMatch[2].trim()
+        }
     }
     return;
 }
 export const createPayloadFromIssueEvent = (issue: Issues["issue"]): ClientPayload | Error => {
-    const url = getURLInBody(issue.body);
-    if (!url) {
+    const split = splitURL(issue.body);
+    if (!split) {
         return new Error("Not found <url> in issue body");
     }
+    const { url, body } = split;
     const isPrivate = issue.labels.some(label => /Type:\s*Private/i.test(label.name));
     // should have one of
     const title = issue.title;
-    const content = issue.body;
+    const content = body;
     const tags = issue.labels.map(label => getTagFromLabel(label.name)).filter(label => !!label) as string[];
     const date = issue.updated_at; // ISO string
     const viaURL = issue.html_url;
