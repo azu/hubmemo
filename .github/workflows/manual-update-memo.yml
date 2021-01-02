@@ -31,7 +31,7 @@ jobs:
       - name: Update Memo
         run: yarn install && yarn ts-node-transpile-only manul-index.tsAK
         env:
-          PAYLOAD: ${{ toJson(github.event.inputs)
+          PAYLOAD: ${{ toJson(github.event.inputs) }}
           UPDATE_MARKDOWN: true
         working-directory: actions/update-memo
       - name: Commit Memo
