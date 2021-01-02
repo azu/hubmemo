@@ -125,7 +125,7 @@ Example: [New Example title · Issue #4 · azu/hubmemo-sandbox](https://github.c
 
 ## Publish Post
 
-[dispatch-update-memo.yml](../.github/workflows/dispatch-update-memo.yml) also create Draft Pull Request!
+[dispatch-update-memo.yml](../.github/workflows/dispatch-update-memo.yml) create Draft Pull Request automatically when updating memo.
 
 1. See your Pull Requests tabs
 2. Edit the Pull Request
