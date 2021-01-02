@@ -7,7 +7,7 @@ on:
 jobs:
   update-memo:
     runs-on: ubuntu-18.04
-    if: contains(github.event.issues.labels.*.name, 'Type:Memo')
+    if: github.event_name == 'issues' && contains(github.event.issues.issue.labels.*.name, 'Type:Memo')
     steps:
       - name: checkout
         uses: actions/checkout@v2
