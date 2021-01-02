@@ -123,6 +123,10 @@ Tips: `title` and `body`  parameter as placeholder.
 
 Example: [New Example Memo · Issue #4 · azu/hubmemo-sandbox](https://github.com/azu/hubmemo-sandbox/issues/4)
 
+---
+
+❤️ If you create new integration to HubMemo, Please add your recipe to here.
+
 ## Publish Post
 
 [dispatch-update-memo.yml](../.github/workflows/dispatch-update-memo.yml) create Draft Pull Request automatically when updating memo.
