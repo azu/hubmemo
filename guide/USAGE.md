@@ -51,10 +51,11 @@ For more details, see [Watch Folder](../watch-folder) documentation.
 
 ### Via GUI
 
-You can use GUI.
+You can use GUI using [manual-update-memo.yml](../.github/workflows/watch-folder-update-memo.yml).
 
-- [ ] GUI
-
+1. Visit
+2. Run this workflow
+3. Input and submit
 
 ## Publish Post
 

@@ -1,0 +1,63 @@
+name: Manual Update Memo
+on:
+  workflow_dispatch:
+    inputs:
+      private:
+        description: "true or false"
+        required: true
+        default: 'false'
+      url:
+        description: "URL",
+        default: "",
+      title:
+        description: "Title",
+        default: "",
+      content:
+        description: "Description(Markdown)",
+        required: true
+      tags:
+        description: "Tags(comma, separated)"
+jobs:
+  update-memo:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      # Update Memo
+      - name: Update Memo
+        run: yarn install && yarn ts-node-transpile-only manul-index.ts
+        env:
+          PAYLOAD: ${{ toJson(github.event.inputs)
+          UPDATE_MARKDOWN: true
+        working-directory: actions/update-memo
+      - name: Commit Memo
+        uses: EndBug/add-and-commit@v6
+        with:
+          message: "Update Memo"
+          push: true
+      # Create draft and create pull request
+      - name: Create Draft Post
+        run: yarn install && yarn ts-node-transpile-only index.ts
+        env:
+          PAYLOAD: "{}"
+          PRIVATE: ${{ github.event.repository.private }}
+        working-directory: actions/create-draft-post
+      - name: Create Draft Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: Draft Post
+          branch: draft
+          delete-branch: true
+          title: "Draft Post"
+          body: |
+            - [ ] Write Headline
+          labels: |
+            Type:Post
+      - name: Check Draft Post PR
+        run: |
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
