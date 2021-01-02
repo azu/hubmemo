@@ -27,7 +27,7 @@ type Memo = {
 Also, HubMemo create a memo as Markdown for human-readable in same directory of JSON.
 
 ```markdown
-## {title}
+## [{title}]({url})
 
 {content}
 
