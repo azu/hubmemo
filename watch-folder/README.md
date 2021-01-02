@@ -34,6 +34,25 @@ Example JSON `update-memo/example.json`
 }
 ```
 
+With upload media example.
+You need to push `watch_folder/update-memo/img.png` at same time.
+
+```json
+{
+  "item": {
+    "title": "example",
+    "url": "https://example.com/",
+    "content": "description for example",
+    "tags": [
+      "example"
+    ],
+    "media": [{
+      "relativeFilePath": "./img.png"
+    }]
+  }
+}
+```
+
 Payload item type
 
 ```ts
@@ -55,7 +74,7 @@ type PayloadMemoItem = {
 :memo: Note to the behavior of Add multiple `watch_folder/update-memo/*.json` at once.
 
 If you add multiple `watch_folder/update-memo/*.json` at once, Hubmemo merge some property on same `url` key.
-It aims to avoid limitation of iOS's shortcuts.app. The limitation is that it can not create dynamic dictionary of array. 
+It aims to avoid limitation of iOS's shortcuts.app. The limitation is that it can not create a dynamic dictionary of array. 
 
 So, Hubmemo create a single memo from multiple `watch_folder/update-memo/*.json` on same `url` key items 
 
@@ -64,6 +83,7 @@ So, Hubmemo create a single memo from multiple `watch_folder/update-memo/*.json`
 - Merge other properties between same `url` key items
 
 ## UseCase
+
 
 ### Mobile OS integrations
 

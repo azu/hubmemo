@@ -19,6 +19,8 @@ You need to get your GitHub Personal Access Token.
 
 [.github/workflows/dispatch-update-memo.yml](../.github/workflows/dispatch-update-memo.yml) Action create/update a memo.
 
+### Via HTTP API
+
 You can call this action via GitHub API.
 
 ```shell
@@ -34,9 +36,25 @@ curl -vv \
     -d '{"event_type": "update-memo", "client_payload": {"item":{"title":"example","url":"https://example.com","content":"description for example","tags":["example"]}}}'
 ```
 
-You can also use GUI.
+### Via Git Push
+
+If you add the json file to `watch_folder/update-memo/` directory, [watch-folder-update-memo.yml](../.github/workflows/watch-folder-update-memo.yml) create memo from.
+
+```shell
+echo '{"item":{"title":"example","url":"https://example.com","content":"description for example","tags":["example"]}}' > watch_folder/update-memo/example.json
+git add watch_folder/update-memo/example.json
+git commit -m "new memo"
+git push
+```
+
+For more details, see [Watch Folder](../watch-folder) documentation.
+
+### Via GUI
+
+You can use GUI.
 
 - [ ] GUI
+
 
 ## Publish Post
 
