@@ -53,7 +53,7 @@ For more details, see [Watch Folder](../watch-folder) documentation.
 
 You can use GUI using [manual-update-memo.yml](../.github/workflows/watch-folder-update-memo.yml).
 
-1. Visit
+1. Visit <https://github.com/<username>/<repo>/actions?query=workflow%3A%22Manual+Update+Memo%22>
 2. Run this workflow
 3. Input and submit
 
