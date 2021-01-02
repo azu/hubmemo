@@ -7,13 +7,13 @@ on:
         required: true
         default: 'false'
       url:
-        description: "URL",
-        default: "",
+        description: "URL"
+        default: ""
       title:
-        description: "Title",
-        default: "",
+        description: "Title"
+        default: ""
       content:
-        description: "Description(Markdown)",
+        description: "Description(Markdown)"
         required: true
       tags:
         description: "Tags(comma, separated)"
@@ -29,7 +29,7 @@ jobs:
           node-version: 14
       # Update Memo
       - name: Update Memo
-        run: yarn install && yarn ts-node-transpile-only manul-index.ts
+        run: yarn install && yarn ts-node-transpile-only manul-index.tsAK
         env:
           PAYLOAD: ${{ toJson(github.event.inputs)
           UPDATE_MARKDOWN: true
