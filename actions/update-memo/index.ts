@@ -1,5 +1,5 @@
-import { createKoreFile, createGitHubAdaptor, createFsAdaptor } from "korefile";
-import { AsocialBookmark, AsocialBookmarkItem, createBookmarkFilePath } from "asocial-bookmark";
+import { createFsAdaptor, createKoreFile } from "korefile";
+import { AsocialBookmark, createBookmarkFilePath } from "asocial-bookmark";
 // @ts-expect-error: need @types
 import escape from "markdown-escape";
 import * as path from "path";
@@ -28,10 +28,10 @@ const createMarkdown = (items: MemoItem[], baseURL: string): string => {
         const media = item.media.map(media => {
             return `![](${media.url.replace(baseURL + "/", "")})`;
         }).join("\n");
-        const title = item.url.startsWith("http") && item.title ? `## [${escape(item.title)}](${item.url})` : ""
-        return `${title}
-
-${item.content}        
+        // If url is not http, treat it as non-bookmark content
+        const isBookmarkContent = item.url.startsWith("http");
+        const title = isBookmarkContent && item.title ? `## [${escape(item.title)}](${item.url})\n\n` : ""
+        return `${title}${item.content}
 ` + (media ? "\n" + media : "")
     }).join("\n\n----\n\n");
 };
