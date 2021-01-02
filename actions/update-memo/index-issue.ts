@@ -95,6 +95,7 @@ if (require.main === module) {
         if (CLIENT_PAYLOAD instanceof Error) {
             throw CLIENT_PAYLOAD
         }
+        const [owner, repo] = env.GITHUB_REPOSITORY.split("/");
         try {
             const result = await updateMemo({
                 ...env,
@@ -103,8 +104,8 @@ if (require.main === module) {
             if (!DISABLE_NOTIFICATION) {
                 await github.issues.createComment({
                     issue_number: issueEvent.number,
-                    owner: issueEvent.owner.login,
-                    repo: issueEvent.name,
+                    owner: owner,
+                    repo: repo,
                     body: `📝 Create new memo in ${result.memoBaseURL}`
                 });
             }
@@ -112,8 +113,8 @@ if (require.main === module) {
             if (!DISABLE_NOTIFICATION) {
                 await github.issues.createComment({
                     issue_number: issueEvent.number,
-                    owner: issueEvent.owner.login,
-                    repo: issueEvent.name,
+                    owner: owner,
+                    repo: repo,
                     body: `📝 Can not create new memo`
                 });
             }
