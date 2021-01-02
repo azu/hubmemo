@@ -104,6 +104,9 @@ async function main() {
     // If private is true, rewrite image path to copied url
     // public url just use raw content
     const forPublishItems = PRIVATE ? unPublishedItems.map(rewriteMediaForPublish) : unPublishedItems
+    if (forPublishItems.length === 0) {
+        return; // No Content
+    }
     const content = await createContent({
         author,
         category,
