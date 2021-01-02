@@ -33,7 +33,7 @@ jobs:
         env:
           ISSUE: ${{ toJSON(github.event.issue) }}
           PRIVATE: ${{ github.event.repository.private }}
-          DISABLE_NOTIFICATION: "false"
+          DISABLE_NOTIFICATION: "false" # if true, do not comment as reply
         working-directory: actions/create-draft-post
       - name: Create Draft Pull Request
         id: cpr
