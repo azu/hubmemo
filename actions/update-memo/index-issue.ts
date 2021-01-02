@@ -56,6 +56,7 @@ export const createPayloadFromIssueEvent = (issues: Issues): ClientPayload | Err
     const content = issues.issue.body;
     const tags = issues.issue.labels.map(label => getTagFromLabel(label.name)).filter(label => !!label) as string[];
     const date = issues.issue.updated_at; // ISO string
+    const viaURL = issues.issue.html_url;
     return {
         item: {
             private: isPrivate,
@@ -64,6 +65,7 @@ export const createPayloadFromIssueEvent = (issues: Issues): ClientPayload | Err
             url,
             tags,
             date: date,
+            viaURL,
             media: [],
             relatedItems: [],
         }
