@@ -7,19 +7,19 @@ This guide describes about "Memo" and "Post".
 
 Hubmemo use GitHub Actions for updating flow.
 
-## Requirements
+## Update Memo
+
+### Via HTTP API
+
+[dispatch-update-memo.yml](../.github/workflows/dispatch-update-memo.yml) Action create/update a memo.
+
+**Requirements**
 
 You need to get your GitHub Personal Access Token.
 
 - Visit <https://github.com/settings/tokens/new>
 - Create a token with `repo` permission
 - Copy it!
-
-## Update Memo
-
-[.github/workflows/dispatch-update-memo.yml](../.github/workflows/dispatch-update-memo.yml) Action create/update a memo.
-
-### Via HTTP API
 
 You can call this action via GitHub API.
 
@@ -36,9 +36,9 @@ curl -vv \
     -d '{"event_type": "update-memo", "client_payload": {"item":{"title":"example","url":"https://example.com","content":"description for example","tags":["example"]}}}'
 ```
 
-### Via Git Push
+### Via Git
 
-If you add the json file to `watch_folder/update-memo/` directory, [watch-folder-update-memo.yml](../.github/workflows/watch-folder-update-memo.yml) create memo from.
+[watch-folder-update-memo.yml](../.github/workflows/watch-folder-update-memo.yml) Action create memo from json file if you add the json file to `watch_folder/update-memo/` directory.
 
 ```shell
 echo '{"item":{"title":"example","url":"https://example.com","content":"description for example","tags":["example"]}}' > watch_folder/update-memo/example.json
@@ -58,7 +58,7 @@ You can use GUI.
 
 ## Publish Post
 
-[.github/workflows/dispatch-update-memo.yml](../.github/workflows/dispatch-update-memo.yml)  also create Draft Pull Request!
+[dispatch-update-memo.yml](../.github/workflows/dispatch-update-memo.yml) also create Draft Pull Request!
 
 1. See your Pull Requests tabs
 2. Edit the Pull Request
