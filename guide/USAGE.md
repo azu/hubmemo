@@ -123,6 +123,17 @@ Tips: `title` and `body`  parameter as placeholder.
 
 Example: [New Example Memo · Issue #4 · azu/hubmemo-sandbox](https://github.com/azu/hubmemo-sandbox/issues/4)
 
+### Via GUI Application
+
+[Postem](https://github.com/azu/postem) is GUI client for bookmarking.
+
+Postem support HumMemo format as [asocial-bookmark](https://github.com/azu/postem/tree/master/src/services/asocial-bookmark) service.
+(HubMemo structure is based on [asocial-bookmark](https://github.com/azu/postem/tree/master/src/services/asocial-bookmark))
+
+You can post a memo from postem.
+
+For more details, please see <https://github.com/azu/postem/tree/master/src/services/asocial-bookmark>.
+
 ---
 
 ❤️ If you create new integration to HubMemo, Please add your recipe to here.
