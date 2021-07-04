@@ -2,6 +2,9 @@ name: Dispatch Update Memo
 on:
   repository_dispatch:
     types: [update-memo]
+permissions:
+  contents: write
+  pull-requests: write
 jobs:
   update-memo:
     runs-on: ubuntu-18.04

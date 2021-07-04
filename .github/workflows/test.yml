@@ -1,5 +1,6 @@
 name: test
 on: [push, pull_request]
+permissions: write-all
 jobs:
   test:
     name: "Test on Node.js ${{ matrix.node-version }}"

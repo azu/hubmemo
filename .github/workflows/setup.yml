@@ -3,6 +3,7 @@ name: Setup Hubmemo
 on:
   workflow_dispatch:
 
+permissions: write-all
 jobs:
   setup:
     runs-on: ubuntu-18.04

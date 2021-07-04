@@ -4,6 +4,7 @@ on:
   pull_request:
     types: [opened, edited, synchronize]
 
+permissions: write-all
 jobs:
   update-draft-post:
     runs-on: ubuntu-18.04
