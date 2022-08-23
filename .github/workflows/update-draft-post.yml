@@ -7,7 +7,7 @@ on:
 permissions: write-all
 jobs:
   update-draft-post:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'Type:Post')
     steps:
       - name: Checkout
