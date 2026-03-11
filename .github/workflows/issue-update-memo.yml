@@ -4,16 +4,21 @@ on:
   issues:
     types: [opened, edited, labeled]
 
-permissions: write-all
+permissions:
+  contents: write
+  pull-requests: write
+  issues: read
 jobs:
   update-memo:
     runs-on: ubuntu-latest
     if: contains(github.event.issue.labels.*.name, 'Type:Memo')
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
       - name: setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 14
       # Update Memo
@@ -25,7 +30,7 @@ jobs:
           UPDATE_MARKDOWN: true
           DISABLE_NOTIFICATION: "false" # if true, do not comment as reply
       - name: Commit Memo
-        uses: EndBug/add-and-commit@v6
+        uses: EndBug/add-and-commit@dbf207a670f7b7917a3a34f067dcaf7b132cb8d2 # v6.2.0
         with:
           message: "Update Memo"
           push: true
@@ -38,7 +43,7 @@ jobs:
         working-directory: actions/create-draft-post
       - name: Create Draft Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@18f7dc018cc2cd597073088f7c7591b9d1c02672 # v3.14.0
         with:
           commit-message: Draft Post
           branch: draft
@@ -50,4 +55,6 @@ jobs:
             Type:Post
       - name: Check Draft Post PR
         run: |
-          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+          echo "Pull Request URL - ${STEPS_CPR_OUTPUTS_PULL_REQUEST_URL}"
+        env:
+          STEPS_CPR_OUTPUTS_PULL_REQUEST_URL: ${{ steps.cpr.outputs.pull-request-url }}

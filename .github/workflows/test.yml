@@ -1,6 +1,7 @@
 name: test
 on: [push, pull_request]
-permissions: write-all
+permissions:
+  contents: read
 jobs:
   test:
     name: "Test on Node.js ${{ matrix.node-version }}"
@@ -11,9 +12,11 @@ jobs:
         node-version: [14]
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
       - name: setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install
